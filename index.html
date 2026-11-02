@@ -21,12 +21,18 @@
         <button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button>
       </div>
     </div>
-    <div class="hero">
-      <p class="eyebrow" data-t="eyebrow"></p>
-      <h1 data-t="title"></h1>
-      <p class="lead" data-t="lead"></p>
+  </div>
+  <div class="menu-sheet" id="menu-sheet">
+    <div class="menu-fade"></div>
+    <div class="menu-wrap" id="menu-wrap">
+      <button class="menu-grab" id="menu-grab" aria-label="Menú"><span></span></button>
+      <div class="hero">
+        <p class="eyebrow" data-t="eyebrow"></p>
+        <h1 data-t="title"></h1>
+        <p class="lead" data-t="lead"></p>
+      </div>
+      <nav class="menu" id="menu" aria-label="Menu"></nav>
     </div>
-    <nav class="menu" id="menu" aria-label="Menu"></nav>
   </div>
 </section>
 
@@ -40,8 +46,8 @@
   </header>
   <div id="map"></div>
   <div class="drawer" id="strip">
-    <button class="grab" id="grab" aria-expanded="false"><span></span></button>
-    <div class="dh"><h3 id="count"></h3><button class="more" id="more"></button></div>
+    <button class="grab" id="grab" aria-label="Lista de lugares"><span></span></button>
+    <div class="dh"><h3 id="count"></h3></div>
     <div class="rows" id="rows"></div>
   </div>
   <article class="sheet" id="sheet" aria-live="polite"></article>

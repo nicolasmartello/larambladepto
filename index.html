@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Rambla Depto · Guía de Mar del Plata</title>
+<meta name="description" content="Dónde desayunar, almorzar, cenar y tomar algo cerca del Paseo Aldrey, Mar del Plata.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<section id="home" class="screen is-active">
+  <div class="bg" role="img" aria-hidden="true"></div>
+  <div class="shade"></div>
+  <div class="home-inner">
+    <div class="topbar">
+      <span class="brand">La Rambla Depto</span>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <div class="hero">
+      <p class="eyebrow" data-t="eyebrow"></p>
+      <h1 data-t="title"></h1>
+      <p class="lead" data-t="lead"></p>
+    </div>
+    <nav class="menu" id="menu" aria-label="Menu"></nav>
+    <p class="credit">Foto: Ezarate, Wikimedia Commons, CC BY-SA 4.0</p>
+  </div>
+</section>
+
+<section id="mapview" class="screen" aria-hidden="true">
+  <header class="map-head">
+    <button class="back" id="back" data-t-aria="back"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <h2 id="map-title"></h2>
+    <div class="lang lang-sm" role="group" aria-label="Idioma / Language">
+      <button data-lang="es" aria-pressed="true">ES</button><button data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+  <div id="map"></div>
+  <div class="strip" id="strip"></div>
+  <article class="sheet" id="sheet" aria-live="polite"></article>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/places.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

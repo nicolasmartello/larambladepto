@@ -147,5 +147,26 @@
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });
 
+  // Foto de día o de noche según la hora del sol en Mar del Plata (no depende de la zona horaria del celular).
+  // Para probar: ?fondo=noche o ?fondo=dia
+  function isNight(now) {
+    var lat = -38.0 * Math.PI / 180, lon = -57.55;
+    var n = Math.floor((now - Date.UTC(now.getUTCFullYear(), 0, 0)) / 864e5);
+    var b = 2 * Math.PI * (n - 81) / 365;
+    var decl = 23.44 * Math.PI / 180 * Math.sin(b);
+    var eot = 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
+    var cosH = (Math.sin(-0.833 * Math.PI / 180) - Math.sin(lat) * Math.sin(decl)) / (Math.cos(lat) * Math.cos(decl));
+    var half = Math.acos(Math.max(-1, Math.min(1, cosH))) * 180 / Math.PI * 4; // minutos
+    var noon = 720 - 4 * lon - eot;                                           // minutos UTC
+    var m = now.getUTCHours() * 60 + now.getUTCMinutes();
+    return Math.abs(((m - noon + 1440 + 720) % 1440) - 720) > half;
+  }
+  function applyBackground() {
+    var q = /[?&]fondo=(noche|dia)/.exec(location.search), night = q ? q[1] === "noche" : isNight(new Date());
+    document.body.dataset.tod = night ? "night" : "day";
+  }
+
+  applyBackground();
+  setInterval(applyBackground, 600000);
   renderStatic();
 })();

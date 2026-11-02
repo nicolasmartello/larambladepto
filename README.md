@@ -7,4 +7,3 @@ Guía bilingüe (ES/EN) con mapa interactivo para huéspedes. Sitio estático, s
 - Probar local: `python3 -m http.server 8123`
 - Publicar: GitHub Pages (Settings > Pages > rama `main`, carpeta `/`).
 
-Foto de fondo: Ezarate, Wikimedia Commons, CC BY-SA 4.0.

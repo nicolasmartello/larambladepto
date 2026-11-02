@@ -3,11 +3,11 @@
     es: { eyebrow: "Mar del Plata · Guía para huéspedes", title: "Comer, tomar algo y salir, a pasos del Aldrey",
           lead: "Los lugares que recomendamos nosotros. Elegí qué tenés ganas de hacer.",
           back: "Volver", close: "Cerrar", go: "Cómo llegar", rec: "Recomendado", rom: "Romántico", home: "Paseo Aldrey (referencia)",
-          photo: "Foto próximamente" },
+          photo: "Foto próximamente", one: "1 lugar", many: "lugares", open: "Ver más", shut: "Ver menos" },
     en: { eyebrow: "Mar del Plata · Guest guide", title: "Eat, drink and go out, steps from Aldrey",
           lead: "The places we recommend ourselves. Pick what you feel like doing.",
           back: "Back", close: "Close", go: "Get directions", rec: "Recommended", rom: "Romantic", home: "Paseo Aldrey (reference)",
-          photo: "Photo coming soon" }
+          photo: "Photo coming soon", one: "1 place", many: "places", open: "See more", shut: "See less" }
   };
   var ORDER = ["desayuno", "almuerzo", "cena", "cerveza", "tragos", "dulce", "actividad"];
   var ICONS = {
@@ -19,6 +19,7 @@
     dulce: '<path d="M7 11a5 5 0 0 1 10 0M7 11l5 10 5-10z" />',
     actividad: '<path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4V6zM10 6v12" />'
   };
+  var MAX_ROWS = 4;
   var lang = "es", cat = null, selected = null, map, layer, markers = {}, homeMarker;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var svg = function (c, color) { return '<svg viewBox="0 0 24 24" fill="none" stroke="' + (color || "#fff") + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + c + "</svg>"; };
@@ -37,6 +38,8 @@
     if (cat) { $("#map-title").textContent = CATS[cat][lang]; renderStrip(); if (selected) renderSheet(selected); }
     if (homeMarker) homeMarker.setTooltipContent(t.home);
   }
+
+  function text(p) { return (p.by && p.by[cat] && p.by[cat][lang]) || p[lang]; }
 
   function placesOf(k) { return PLACES.filter(function (p) { return p.cats.indexOf(k) > -1; }); }
 
@@ -74,15 +77,29 @@
     closeSheet();
     setTimeout(function () {
       map.invalidateSize();
-      map.fitBounds(L.latLngBounds(pts), { padding: [60, 60], maxZoom: 16 });
+      map.fitBounds(L.latLngBounds(pts), { paddingTopLeft: [50, 80], paddingBottomRight: [50, map.getSize().y * 0.4 + 30], maxZoom: 16 });
     }, 60);
   }
 
   function renderStrip() {
-    $("#strip").innerHTML = placesOf(cat).map(function (p) {
-      return '<button class="chip" data-id="' + p.id + '" style="--c:' + CATS[cat].color + '"><i></i>' + esc(p.name) + (p.rec ? ' <span class="s">★</span>' : "") + (p.rom ? ' <span class="s" style="color:#d6336c">♥</span>' : "") + "</button>";
+    var t = I18N[lang], list = placesOf(cat), d = $("#strip"), fit = list.length <= MAX_ROWS;
+    // hasta 4 lugares entran sin scroll: sin "Ver más" y el panel se ajusta al contenido
+    if (fit) d.classList.remove("tall");
+    d.classList.toggle("fit", fit);
+    $("#more").hidden = fit;
+    $("#grab").disabled = fit;
+    var tall = d.classList.contains("tall");
+    $("#count").textContent = list.length === 1 ? t.one : list.length + " " + t.many;
+    $("#more").textContent = tall ? t.shut : t.open;
+    $("#grab").setAttribute("aria-expanded", tall);
+    $("#rows").innerHTML = list.map(function (p) {
+      return '<button class="row" data-id="' + p.id + '" style="--c:' + CATS[cat].color + '"><i></i><span class="tx"><b>' + esc(p.name) +
+        (p.rec ? ' <span class="s">★</span>' : "") + (p.rom ? ' <span class="h">♥</span>' : "") + "</b><small>" + esc(text(p)) + "</small></span>" +
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>';
     }).join("");
   }
+
+  function toggleDrawer() { if ($("#strip").classList.contains("fit")) return; $("#strip").classList.toggle("tall"); renderStrip(); }
 
   function select(id) {
     selected = id;
@@ -112,9 +129,9 @@
     var tags = '<span class="tag cat" style="--c:' + CATS[cat].color + '">' + CATS[cat][lang] + "</span>" +
       (p.rec ? '<span class="tag">★ ' + t.rec + "</span>" : "") + (p.rom ? '<span class="tag rom">♥ ' + t.rom + "</span>" : "");
     $("#sheet").style.setProperty("--c", CATS[cat].color);
-    $("#sheet").innerHTML = '<div class="sheet-scroll"><div class="photo"><span>' + t.photo + '</span><img src="img/places/' + p.id + '.jpg" alt="' + esc(p.name) + '" onerror="this.remove()">' +
+    $("#sheet").innerHTML = '<div class="sheet-scroll"><div class="photo"><span>' + t.photo + '</span><img src="img/places/' + p.id + '.webp" alt="' + esc(p.name) + '" style="object-position:' + (p.pos || "center") + '" onerror="this.remove()">' +
       '<button class="close" id="close" aria-label="' + t.close + '"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
-      '<div class="body"><div class="tags">' + tags + "</div><h3>" + esc(p.name) + "</h3><p>" + esc(p[lang]) + "</p>" +
+      '<div class="body"><div class="tags">' + tags + "</div><h3>" + esc(p.name) + "</h3><p>" + esc(text(p)) + "</p>" +
       '<a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&' + dest + '&travelmode=walking">' + t.go +
       ' <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>';
     $("#close").onclick = closeSheet;
@@ -122,6 +139,7 @@
 
   function closeSheet() {
     selected = null;
+    $("#strip").classList.remove("tall");
     $("#sheet").classList.remove("open");
     $("#strip").classList.remove("hide");
     Object.keys(markers).forEach(function (k) {
@@ -142,7 +160,8 @@
     var b;
     if ((b = e.target.closest("[data-lang]"))) { lang = b.dataset.lang; renderStatic(); return; }
     if ((b = e.target.closest("#menu [data-cat]"))) { openCategory(b.dataset.cat); return; }
-    if ((b = e.target.closest(".chip[data-id]"))) { select(b.dataset.id); return; }
+    if ((b = e.target.closest(".row[data-id]"))) { select(b.dataset.id); return; }
+    if (e.target.closest("#grab, #more")) { toggleDrawer(); return; }
     if (e.target.closest("#back")) { closeSheet(); show("home"); }
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });

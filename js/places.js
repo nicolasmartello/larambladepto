@@ -12,18 +12,25 @@ window.CATS = {
   actividad:{ color: "#1f7fd1", es: "Actividades", en: "Things to do" }
 };
 
-// rec: recomendado (estrella). rom: romántico (corazón).
+// by: texto distinto según la sección (opcional). pos: encuadre de la foto (object-position), opcional. rec: recomendado (estrella). rom: romántico (corazón).
 window.PLACES = [
-  { id: "manantiales", cats: ["desayuno"], name: "Terraza de Manantiales", ll: null,
-    es: "Desayunás en la terraza con vista a toda la ciudad y al mar.",
-    en: "Breakfast on the terrace with a view over the whole city and the sea." },
+  { id: "rosso", cats: ["almuerzo", "cena"], name: "Rosso", rom: true, ll: null,
+    es: "¿Te gustan las pastas? Rosso es tu lugar para almorzar y disfrutar de un rico postre en el patio.",
+    en: "Love pasta? Rosso is your spot for lunch and a delicious dessert in the patio.",
+    by: { cena: {
+      es: "¿Te gustan las pastas? Rosso es tu lugar para una cena romántica o en familia.",
+      en: "Love pasta? Rosso is your spot for a romantic or family dinner." } } },
+
+  { id: "manantiales", cats: ["desayuno"], name: "Las Nubes Café (Manantiales)", ll: null, pos: "50% 45%",
+    es: "Desayunás en las nubes, con vista a toda Mar del Plata y al mar.",
+    en: "Breakfast in the clouds, with a view over all of Mar del Plata and the sea." },
   { id: "fonte-aldrey", cats: ["desayuno"], name: "La Fonte (Paseo Aldrey)", ll: [-38.01255, -57.54412],
     es: "Está dentro del Paseo Aldrey, a metros del depto. Café y medialunas sin vueltas.",
     en: "Inside Paseo Aldrey, steps from the flat. Coffee and croissants, no fuss." },
-  { id: "fonte-varese", cats: ["desayuno"], name: "La Fonte de Varese", ll: [-38.02927, -57.53295],
+  { id: "fonte-varese", cats: ["desayuno"], name: "La Fonte de Varese", ll: [-38.0160562, -57.5312677],
     es: "Si querés desayunar mirando el mar, este es el lugar.",
     en: "If you want to have breakfast looking at the sea, this is the spot." },
-  { id: "wiki", cats: ["desayuno"], name: "Wiki Mirador", ll: null,
+  { id: "wiki", cats: ["desayuno"], name: "Waikiki Mirador", ll: null,
     es: "Para una vista del mar con tu café o tu merienda.",
     en: "A sea view to go with your coffee or afternoon snack." },
 
@@ -48,13 +55,13 @@ window.PLACES = [
   { id: "hamburgueseria", cats: ["almuerzo"], name: "La Hamburguesería", ll: [-38.01637, -57.54344],
     es: "Hamburguesas con varias sucursales en la ciudad. Esta es la más cercana al depto.",
     en: "Burgers, with several branches in the city. This one is the closest to the flat." },
-  { id: "rosso-almuerzo", cats: ["almuerzo"], name: "Rosso", ll: null,
-    es: "Ideal al mediodía para tomarte un café en el patio.",
-    en: "Perfect at midday for a coffee in the patio." },
+  { id: "caldo", cats: ["cena"], name: "Caldo", rec: true, rom: true, ll: null,
+    es: "¿Te gusta el pescado? Caldo es tu lugar, súper recomendado.",
+    en: "Love fish? Caldo is your place, highly recommended." },
 
-  { id: "caldo", cats: ["cena"], name: "Caldo", rom: true, ll: null,
-    es: "Cena romántica ideal.",
-    en: "The ideal romantic dinner." },
+  { id: "lo-de-tata", cats: ["almuerzo", "cena"], name: "Lo de Tata", rec: true, ll: null,
+    es: "Cantina de pescados, súper recomendada. Andá con paciencia, es por orden de llegada y hay mucha gente.",
+    en: "Seafood cantina, highly recommended. Be patient: it is first come, first served and it gets very busy." },
   { id: "ola", cats: ["cena"], name: "Ola", rec: true, rom: true, ll: null,
     es: "Para una cena romántica. Recomendado.",
     en: "For a romantic dinner. Recommended." },
@@ -66,16 +73,16 @@ window.PLACES = [
     en: "A bodegón for a hearty, unfussy dinner." },
   { id: "furia", cats: ["cena", "tragos"], name: "Furia", rom: true, ll: null,
     es: "Otro lugar romántico, también para comer con ricos tragos.",
-    en: "Another romantic spot, with great cocktails to go with dinner." },
+    en: "Another romantic spot, with great cocktails to go with dinner.",
+    by: { tragos: {
+      es: "Ricos tragos en un lugar romántico.",
+      en: "Great cocktails in a romantic setting." } } },
   { id: "rabona", cats: ["cena"], name: "Rabona", rec: true, ll: null,
     es: "Pizzería recomendada.",
     en: "Recommended pizzeria." },
   { id: "da-filippo", cats: ["cena"], name: "Da Filippo", rec: true, ll: null,
-    es: "Pizzería recomendada. Probá la pizza fría.",
-    en: "Recommended pizzeria. Try the cold pizza." },
-  { id: "rosso", cats: ["cena"], name: "Rosso", rom: true, ll: null,
-    es: "¿Te gustan las pastas? Al mediodía o a la noche, para ir en pareja o en familia.",
-    en: "Love pasta? Lunch or dinner, for couples or families." },
+    es: "Pizzería recomendada. Probá la pizza frita.",
+    en: "Recommended pizzeria. Try the fried pizza." },
 
   { id: "cheverry", cats: ["cerveza"], name: "Cheverry", rec: true, ll: [-38.01543, -57.54316],
     es: "Cervecería sobre Olavarría. Recomendada.",
@@ -83,10 +90,6 @@ window.PLACES = [
   { id: "antares", cats: ["cerveza"], name: "Antares", rec: true, ll: [-38.01005, -57.5556],
     es: "La cervecería clásica de Mar del Plata. Recomendada.",
     en: "The Mar del Plata classic brewery. Recommended." },
-
-  { id: "furia-tragos", cats: ["tragos"], name: "Furia", rom: true, ll: null,
-    es: "Ricos tragos en un lugar romántico.",
-    en: "Great cocktails in a romantic setting." },
 
   { id: "luccianos", cats: ["dulce"], name: "Lucciano's", rec: true, ll: [-38.02253, -57.55733],
     es: "Heladería recomendada.",
@@ -101,7 +104,7 @@ window.PLACES = [
   { id: "roxy", cats: ["actividad"], name: "Teatro Roxy", ll: [-37.99941, -57.54809],
     es: "Teatro con la cartelera más vista de la temporada.",
     en: "A theatre with some of the season's most popular shows." },
-  { id: "vendu", cats: ["actividad"], name: "Vendu Arena", ll: null,
+  { id: "bendu", cats: ["actividad"], name: "Bendu Arena", ll: null,
     es: "Para ir a ver recitales.",
     en: "For live concerts." },
   { id: "arena", cats: ["actividad"], name: "Arena Mar del Plata", ll: [-37.99065, -57.5629],

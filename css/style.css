@@ -65,9 +65,10 @@ h1 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clam
 .lang-sm { background: var(--paper); border-color: var(--line); box-shadow: 0 4px 16px rgba(8, 30, 38, .22); }
 .lang-sm button { color: var(--muted); }
 .lang-sm button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-#map { position: absolute; inset: 0; }
+#map { position: absolute; inset: 0; z-index: 0; }
 .leaflet-container { font-family: var(--f-body); background: #e8eff0; }
-.leaflet-top.leaflet-right { margin-top: calc(68px + var(--safe-t)); }
+.leaflet-top.leaflet-right, .leaflet-top.leaflet-left { margin-top: calc(68px + var(--safe-t)); }
+.leaflet-control-attribution { font-size: 10px; line-height: 1.3; max-width: calc(100vw - 76px); white-space: normal; }
 
 .pin { position: relative; }
 .pin .dot { width: 34px; height: 34px; border-radius: 50% 50% 50% 4px; transform: rotate(-45deg); background: var(--c); border: 3px solid #fff; box-shadow: 0 3px 10px rgba(8, 30, 38, .4); transition: transform .2s; }

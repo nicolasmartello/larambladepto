@@ -65,7 +65,9 @@
 
   function initMap() {
     if (map) return;
-    map = L.map("map", { zoomControl: false, attributionControl: true });
+    map = L.map("map", { zoomControl: false, attributionControl: false });
+    // el crédito va arriba a la izquierda, bajo el encabezado: abajo tapaba el botón "Cómo llegar" de la ficha
+    L.control.attribution({ position: "topleft", prefix: false }).addTo(map);
     L.control.zoom({ position: "topright" }).addTo(map);
     // Mapa base de OpenFreeMap (gratis, sin clave, pensado para sitios en producción). Si el celular no soporta WebGL,
     // se usa el mapa de OpenStreetMap como respaldo.

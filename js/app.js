@@ -26,6 +26,11 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var svg = function (c, color) { return '<svg viewBox="0 0 24 24" fill="none" stroke="' + (color || "#fff") + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + c + "</svg>"; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  // Eventos de Google Analytics (ver js/analytics.js); cada uno lleva el idioma y si era de día o de noche
+  function track(name, params) {
+    if (!window.track) return;
+    window.track(name, Object.assign({ language: lang, time_of_day: document.body.dataset.tod || "day" }, params));
+  }
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   var byId = function (id) { return PLACES.filter(function (x) { return x.id === id; })[0]; };
 
@@ -89,6 +94,7 @@
 
   function openCategory(k) {
     cat = k; selected = null;
+    track("category_open", { category: k });
     show("mapview");
     initMap();
     $("#map-title").textContent = CATS[k][lang];
@@ -311,6 +317,7 @@
 
   function focusPlace(id) {
     selected = id;
+    track("place_view", { place_id: id, place_name: byId(id).name, category: cat });
     Object.keys(markers).forEach(function (k) { markers[k].setIcon(pinIcon(byId(k), k === id)); });
     var p = byId(id);
     if (p.ll) {
@@ -434,9 +441,10 @@
   document.addEventListener("click", function (e) {
     var b;
     if (ignoreClick) { e.preventDefault(); e.stopPropagation(); return; }
-    if ((b = e.target.closest("[data-lang]"))) { lang = b.dataset.lang; renderStatic(); return; }
+    if ((b = e.target.closest("[data-lang]"))) { if (b.dataset.lang !== lang) { lang = b.dataset.lang; track("language_change", { selected_language: lang }); } renderStatic(); return; }
     if ((b = e.target.closest("#menu [data-cat]"))) { openCategory(b.dataset.cat); return; }
     if ((b = e.target.closest(".row[data-id]"))) { select(b.dataset.id); return; }
+    if (e.target.closest("#sheet .go") && selected) { track("directions_click", { place_id: selected, place_name: byId(selected).name, category: cat }); return; }
     if (e.target.closest("#grab")) { drawerSnap.cycle(); return; }
     if (e.target.closest("#menu-grab")) { menuSnap.cycle(); return; }
     if (e.target.closest("#back")) { closeSheet(); show("home"); }

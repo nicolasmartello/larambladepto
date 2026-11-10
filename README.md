@@ -55,6 +55,23 @@ python3 -m http.server 8123
 
 Then open `http://localhost:8123/`. Append `?fondo=noche` or `?fondo=dia` to force the night or day background.
 
+## Analytics (Google Analytics 4)
+
+`js/analytics.js` is ready but inactive: while `GA_MEASUREMENT_ID` is empty nothing is loaded and no data is sent. To turn it on, create a GA4 property with a web data stream for the site and paste its Measurement ID (`G-XXXXXXXXXX`) into that file.
+
+Events sent, each with `language` and `time_of_day` (`day` or `night`):
+
+| Event | When | Extra parameters |
+|---|---|---|
+| `category_open` | A guest opens a section | `category` |
+| `place_view` | A place card is shown (list, pin or swipe) | `place_id`, `place_name`, `category` |
+| `directions_click` | "Get directions" is tapped | `place_id`, `place_name`, `category` |
+| `language_change` | The ES / EN switch is used | `selected_language` |
+
+To see these parameters in reports, register `place_name`, `place_id`, `category`, `language` and `time_of_day` as event-scoped custom dimensions (Admin > Custom definitions).
+
+Consent Mode v2 is on: advertising signals are always denied, analytics storage is denied by default in the EEA, the UK and Switzerland, and a small cookie notice is shown to visitors whose browser reports a European time zone.
+
 ## Deploy
 
 Hosted on GitHub Pages from the `main` branch, root folder. Every push to `main` republishes the site, so there is nothing to build or run.

@@ -1,7 +1,7 @@
 // Google Analytics 4. Mientras GA_MEASUREMENT_ID esté vacío no se carga nada y track() no hace nada.
 // Para activarlo: pegá el ID de la propiedad (formato G-XXXXXXXXXX), en Admin > Flujos de datos > tu sitio web.
 (function () {
-  var GA_MEASUREMENT_ID = "G-BCZV0V828V";
+  var GA_MEASUREMENT_ID = "G-RRVYC2QJKW";
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }

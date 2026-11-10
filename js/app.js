@@ -19,6 +19,7 @@
     dulce: '<path d="M7 11a5 5 0 0 1 10 0M7 11l5 10 5-10z" />',
     actividad: '<path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4V6zM10 6v12" />'
   };
+  var NEAR_M = 3500;     // radio (m) del encuadre inicial del mapa
   var MAX_ROWS = 4;      // hasta 4 lugares entran sin scroll en el panel
   var lang = "es", cat = null, selected = null, map, layer, markers = {}, homeMarker;
   var IMG = {};          // id -> true (cargada) | false (no existe) | null (cargando)
@@ -66,8 +67,17 @@
     if (map) return;
     map = L.map("map", { zoomControl: false, attributionControl: true });
     L.control.zoom({ position: "topright" }).addTo(map);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-      { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+    // Mapa base de OpenFreeMap (gratis, sin clave, pensado para sitios en producción). Si el celular no soporta WebGL,
+    // se usa el mapa de OpenStreetMap como respaldo.
+    var webgl = false;
+    try { var cv = document.createElement("canvas"); webgl = !!(window.maplibregl && L.maplibreGL && (cv.getContext("webgl2") || cv.getContext("webgl"))); } catch (e) {}
+    if (webgl) {
+      L.maplibreGL({ style: "https://tiles.openfreemap.org/styles/liberty",
+        attribution: '<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>' }).addTo(map);
+    } else {
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+    }
     layer = L.layerGroup().addTo(map);
     homeMarker = L.marker(HOME.ll, { zIndexOffset: 500, icon: L.divIcon({ className: "", iconSize: [38, 38], iconAnchor: [19, 19],
       html: '<div class="home-pin">' + svg('<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>') + "</div>" }) })
@@ -93,7 +103,9 @@
     closeSheet();
     setTimeout(function () {
       map.invalidateSize();
-      map.fitBounds(L.latLngBounds(pts), { paddingTopLeft: [50, 80], paddingBottomRight: [50, drawerHeight() + 30], maxZoom: 16 });
+      // el encuadre inicial solo abarca los lugares cercanos al depto: uno lejano no debe achicar todo el mapa
+      var near = pts.filter(function (q) { return L.latLng(q).distanceTo(L.latLng(HOME.ll)) <= NEAR_M; });
+      map.fitBounds(L.latLngBounds(near.length > 1 ? near : pts), { paddingTopLeft: [50, 80], paddingBottomRight: [50, drawerHeight() + 30], maxZoom: 16 });
     }, 60);
   }
 

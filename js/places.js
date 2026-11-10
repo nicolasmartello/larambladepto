@@ -30,9 +30,12 @@ window.PLACES = [
   { id: "fonte-varese", cats: ["desayuno"], name: "La Fonte de Varese", ll: [-38.0160562, -57.5312677],
     es: "Si querés desayunar mirando el mar, este es el lugar.",
     en: "If you want to have breakfast looking at the sea, this is the spot." },
-  { id: "wiki", cats: ["desayuno"], name: "Waikiki Mirador", ll: null,
+  { id: "wiki", cats: ["desayuno"], name: "Waikiki Mirador", ll: [-38.080745, -57.5375804],
     es: "Para una vista del mar con tu café o tu merienda.",
     en: "A sea view to go with your coffee or afternoon snack." },
+  { id: "torreon-del-monje", cats: ["desayuno", "almuerzo", "cena"], name: "Torreón del Monje", ll: [-38.00800, -57.53343],
+    es: "Histórico lugar con una vista imperdible de Mar del Plata.",
+    en: "A historic spot with an unmissable view of Mar del Plata." },
 
   { id: "palmera", cats: ["almuerzo"], name: "La Palmera", ll: null,
     es: "¿Parrilla? La Palmera, a pasos del depto.",
@@ -77,6 +80,12 @@ window.PLACES = [
     by: { tragos: {
       es: "Ricos tragos en un lugar romántico.",
       en: "Great cocktails in a romantic setting." } } },
+  { id: "marplateada", cats: ["tragos"], name: "Marplateada Vermutería", ll: [-38.01472, -57.54678],
+    es: "¿Te gusta el vermú y el tapeo? Este es tu lugar perfecto. Reservá antes de ir.",
+    en: "Into vermouth and tapas? This is your perfect spot. Book before you go." },
+  { id: "estacion-central", cats: ["tragos"], name: "Estación Central", ll: [-38.01384, -57.54308],
+    es: "Bar nocturno con excelente coctelería.",
+    en: "Late-night bar with excellent cocktails." },
   { id: "rabona", cats: ["cena"], name: "Rabona", rec: true, ll: null,
     es: "Pizzería recomendada.",
     en: "Recommended pizzeria." },
@@ -91,13 +100,13 @@ window.PLACES = [
     es: "La cervecería clásica de Mar del Plata. Recomendada.",
     en: "The Mar del Plata classic brewery. Recommended." },
 
-  { id: "luccianos", cats: ["dulce"], name: "Lucciano's", rec: true, ll: [-38.02253, -57.55733],
+  { id: "luccianos", cats: ["dulce"], name: "Lucciano's", rec: true, ll: [-38.0142, -57.54036],
     es: "Heladería recomendada.",
     en: "Recommended ice cream shop." },
-  { id: "lite-ofelia", cats: ["dulce"], name: "Lite Ofelia", rec: true, ll: null,
+  { id: "little-ofelia", cats: ["dulce"], name: "Little Ofelia", rec: true, ll: [-38.02766, -57.53792],
     es: "Café y pastelería. Recomendado.",
     en: "Café and pastry shop. Recommended." },
-  { id: "via-dell-amore", cats: ["dulce"], name: "Via dell'Amore", rec: true, ll: null,
+  { id: "via-dell-amore", cats: ["desayuno", "dulce"], name: "Via dell'Amore", rec: true, ll: [-37.98884, -57.54711],
     es: "Café italiano. Recomendado.",
     en: "Italian café. Recommended." },
 
@@ -112,5 +121,8 @@ window.PLACES = [
     en: "Another venue for live concerts." },
   { id: "museo-mar", cats: ["actividad"], name: "Museo del Mar", ll: null,
     es: "Plan de día para toda la familia.",
-    en: "A day out for the whole family." }
+    en: "A day out for the whole family." },
+  { id: "museo-castagnino", cats: ["actividad"], name: "Museo Castagnino", ll: [-38.01052, -57.53563],
+    es: "Una de las villas más antiguas de Mar del Plata, convertida en museo.",
+    en: "One of the oldest villas in Mar del Plata, turned into a museum." }
 ];
